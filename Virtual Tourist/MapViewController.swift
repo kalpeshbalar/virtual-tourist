@@ -21,7 +21,7 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         mapView.delegate = self
   
-        let uilgr = UILongPressGestureRecognizer(target: self, action: "printHello:")
+        let uilgr = UILongPressGestureRecognizer(target: self, action: "addPin:")
         uilgr.minimumPressDuration = 1.0
         mapView.addGestureRecognizer(uilgr)
         
@@ -53,7 +53,7 @@ class MapViewController: UIViewController {
         }
     }
     
-    func printHello(gestureRecognizer:UIGestureRecognizer){
+    func addPin(gestureRecognizer:UIGestureRecognizer){
         if (gestureRecognizer.state == UIGestureRecognizerState.Began) {
             let touchPoint = gestureRecognizer.locationInView(mapView)
             let newCoordinates = mapView.convertPoint(touchPoint, toCoordinateFromView: mapView)
@@ -95,7 +95,12 @@ extension MapViewController: MKMapViewDelegate {
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         let annotation = view.annotation as? MyAnnotation
-        print(annotation?.pin.latitude)
-        print(annotation?.pin.longitude)
+        let controller = storyboard!.instantiateViewControllerWithIdentifier("PhotoViewController") as! PhotoViewController
+        
+        let pin = annotation?.pin
+        
+        controller.pin = pin
+        
+        self.navigationController!.pushViewController(controller, animated: true)        
     }
 }

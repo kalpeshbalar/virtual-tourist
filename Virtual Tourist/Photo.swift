@@ -13,7 +13,7 @@ class Photo : NSManagedObject {
     struct Keys {
         static let ID = "id"
         static let Title = "title"
-        static let ImagePath = "poster_path"
+        static let ImagePath = "url_m"
     }
     
     @NSManaged var title: String
@@ -32,20 +32,20 @@ class Photo : NSManagedObject {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         
         // Dictionary
-        id = dictionary[Keys.ID] as! Int
+        id = (dictionary[Keys.ID] as! NSString).integerValue
         title = dictionary[Keys.Title] as! String
         imagePath = dictionary[Keys.ImagePath] as? String
     }
-    /*
+    
     var photoImage: UIImage? {
         get {
-            return Caches.imageCache.imageWithIdentifier(imagePath)
+            return FlickrDB.Caches.imageCache.imageWithIdentifier(imagePath)
         }
         
         set {
-            Caches.imageCache.storeImage(newValue, withIdentifier: imagePath!)
+            FlickrDB.Caches.imageCache.storeImage(newValue, withIdentifier: imagePath!)
         }
-    }*/
+    }
 }
 
 
