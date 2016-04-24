@@ -1,8 +1,9 @@
 //
 //  Photo.swift
-//  TheMovieDB
+//  Virtual Tourist
 //
-//  Created by Jason on 1/11/15.
+//  Created by Kalpesh Balar on 17/04/16.
+//  Copyright © 2016 Kalpesh Balar. All rights reserved.
 //
 
 import UIKit
@@ -47,6 +48,3 @@ class Photo : NSManagedObject {
         }
     }
 }
-
-
-

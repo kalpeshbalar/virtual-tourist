@@ -122,7 +122,6 @@
 				044714BC1CAE8E6C007EDFA1 /* Info.plist */,
 				04D847F51CB29BF800F3DAA9 /* Model.xcdatamodeld */,
 				04B79D9C1CC33A050077D2FE /* PhotoViewController.swift */,
-				04B79DA21CC394B40077D2FE /* PhotoCollectionViewCell.swift */,
 			);
 			path = "Virtual Tourist";
 			sourceTree = "<group>";
@@ -148,6 +147,7 @@
 		044714E01CAEABC5007EDFA1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				04B79DA21CC394B40077D2FE /* PhotoCollectionViewCell.swift */,
 				04B79DA01CC34EC70077D2FE /* FlickrDB.swift */,
 				044714E11CAEABFA007EDFA1 /* Photo.swift */,
 				04B79D9E1CC34EAA0077D2FE /* ImageCache.swift */,

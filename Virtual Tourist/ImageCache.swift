@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  FavoriteActors
+//  ImageCache.swift
+//  Virtual Tourist
 //
 //  Created by Jason on 1/31/15.
 //  Copyright (c) 2015 Udacity. All rights reserved.
@@ -35,9 +35,21 @@ class ImageCache {
         
         return nil
     }
+
+    func deleteImageWithIdentifier(identifier: String?) -> Void {
+        
+        // If the identifier is nil, or empty, return nil
+        if identifier == nil || identifier! == "" {
+            return
+        }
+        
+        let path = pathForIdentifier(identifier!)
+        inMemoryCache.removeObjectForKey(path)
+
+        return
+    }
     
     // MARK: - Saving images
-    
     func storeImage(image: UIImage?, withIdentifier identifier: String) {
         let path = pathForIdentifier(identifier)
         
@@ -61,7 +73,6 @@ class ImageCache {
     }
     
     // MARK: - Helper
-    
     func pathForIdentifier(identifier: String) -> String {
         let documentsDirectoryURL: NSURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
         let fullURL = documentsDirectoryURL.URLByAppendingPathComponent(identifier)

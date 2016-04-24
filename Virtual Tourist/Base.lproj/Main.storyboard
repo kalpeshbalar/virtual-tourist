@@ -49,9 +49,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="odo-17-Zvc" secondAttribute="trailing" constant="-20" id="l6f-Zz-sSu"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Virtual Tourist" id="UTh-kO-QkV">
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="5nS-SC-j29"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Virtual Tourist" id="UTh-kO-QkV"/>
                     <connections>
                         <outlet property="mapView" destination="odo-17-Zvc" id="GCo-6d-aio"/>
                     </connections>
@@ -76,7 +74,7 @@
                                 <rect key="frame" x="0.0" y="28" width="600" height="150"/>
                             </mapView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="C8y-gA-5HN">
-                                <rect key="frame" x="0.0" y="177" width="600" height="423"/>
+                                <rect key="frame" x="0.0" y="177" width="600" height="379"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="y9Y-rF-cOb">
                                     <size key="itemSize" width="129" height="118"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -102,7 +100,21 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="noV-8q-dwi" id="xRg-X2-CIS"/>
+                                    <outlet property="delegate" destination="noV-8q-dwi" id="UgK-dB-YZ6"/>
+                                </connections>
                             </collectionView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bwq-hG-vLe">
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                                <items>
+                                    <barButtonItem title="New Collection" width="276.5" id="YHg-wY-PcW">
+                                        <connections>
+                                            <action selector="reloadCollection:" destination="noV-8q-dwi" id="ogD-eh-Tcr"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -111,7 +123,11 @@
                             <constraint firstItem="n3K-Qb-mDM" firstAttribute="top" secondItem="U5L-bg-sXg" secondAttribute="bottom" id="GMM-SY-YNj"/>
                             <constraint firstAttribute="trailingMargin" secondItem="n3K-Qb-mDM" secondAttribute="trailing" constant="-20" id="Kbe-rN-9qJ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="C8y-gA-5HN" secondAttribute="trailing" constant="-20" id="L28-sL-hjd"/>
+                            <constraint firstItem="Bwq-hG-vLe" firstAttribute="bottom" secondItem="NyF-2F-HqC" secondAttribute="bottomMargin" id="a2O-e9-bfS"/>
                             <constraint firstItem="C8y-gA-5HN" firstAttribute="leading" secondItem="NyF-2F-HqC" secondAttribute="leadingMargin" constant="-20" id="aKt-2H-32u"/>
+                            <constraint firstItem="Bwq-hG-vLe" firstAttribute="leading" secondItem="NyF-2F-HqC" secondAttribute="leadingMargin" constant="-20" id="gBI-xn-ZrU"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Bwq-hG-vLe" secondAttribute="trailing" constant="-20" id="yeV-PC-bCP"/>
+                            <constraint firstItem="Bwq-hG-vLe" firstAttribute="top" secondItem="C8y-gA-5HN" secondAttribute="bottom" id="zM4-Ev-hw7"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
