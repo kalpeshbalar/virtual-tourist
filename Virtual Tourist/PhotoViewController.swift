@@ -152,8 +152,6 @@ class PhotoViewController: UIViewController, NSFetchedResultsControllerDelegate,
     {
         let photo = fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
         
-        FlickrDB.Caches.imageCache.deleteImageWithIdentifier(photo.imagePath)
-
         sharedContext.deleteObject(photo)
         self.saveContext()
     }

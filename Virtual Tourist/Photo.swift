@@ -47,4 +47,8 @@ class Photo : NSManagedObject {
             FlickrDB.Caches.imageCache.storeImage(newValue, withIdentifier: "\(id)")
         }
     }
+    
+    override func prepareForDeletion() {
+        FlickrDB.Caches.imageCache.deleteImageWithIdentifier("\(id)")
+    }
 }
