@@ -137,7 +137,7 @@ class FlickrDB : NSObject {
             }
            
             /* Pick a random page! */
-            let randomPage = Int(arc4random_uniform(UInt32(totalPages))) + 1
+            let randomPage = Int(arc4random_uniform(UInt32(totalPages/5))) + 1
             self.getImageFromFlickrBySearchWithPage(methodArguments, pageNumber: randomPage, completionHandler: completionHandler)
         }
         task.resume()
