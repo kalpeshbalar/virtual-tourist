@@ -44,7 +44,7 @@ class PhotoViewController: UIViewController, NSFetchedResultsControllerDelegate,
     }
     
     func updateFlowLayout() {
-        let space: CGFloat = 2.0
+        let space: CGFloat = 1.0
         let width: CGFloat = (self.view.frame.size.width - (2*space)) / 3.0
         
         flowLayout.minimumInteritemSpacing = space
@@ -158,14 +158,13 @@ class PhotoViewController: UIViewController, NSFetchedResultsControllerDelegate,
     
     func configureCell(cell: PhotoCollectionViewCell, photo: Photo) {
 
-        var posterImage = UIImage(named: "posterPlaceHoldr")
-        cell.imageView!.image = nil
-        
         if photo.imagePath == nil || photo.imagePath == "" {
-            posterImage = UIImage(named: "noImage")
+            cell.activityIndicator.stopAnimating()
+            cell.activityIndicator.hidden = true
         } else if photo.photoImage != nil {
-            //print("Loading Image from memory")
-            posterImage = photo.photoImage
+            cell.imageView.image = photo.photoImage
+            cell.activityIndicator.stopAnimating()
+            cell.activityIndicator.hidden = true
         }
             
         else { // This is the interesting case. The movie has an image name, but it is not downloaded yet.
@@ -174,7 +173,7 @@ class PhotoViewController: UIViewController, NSFetchedResultsControllerDelegate,
             let task = FlickrDB.sharedInstance().taskForImage(photo.imagePath!) { data, error in
                 
                 if let error = error {
-                    print("Poster download error: \(error.localizedDescription)")
+                    print("Photo download error: \(error.localizedDescription)")
                 }
                 
                 if let data = data {
@@ -187,12 +186,12 @@ class PhotoViewController: UIViewController, NSFetchedResultsControllerDelegate,
                     // update the cell later, on the main thread
                     dispatch_async(dispatch_get_main_queue()) {
                         cell.imageView!.image = image
+                        cell.activityIndicator.startAnimating()
+                        cell.activityIndicator.hidden = true
                     }
                 }
             }
-            //cell.taskToCancelifCellIsReused = task
         }
-        cell.imageView!.image = posterImage
     }
     
     

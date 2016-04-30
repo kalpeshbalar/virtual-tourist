@@ -75,6 +75,7 @@
                             </mapView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="C8y-gA-5HN">
                                 <rect key="frame" x="0.0" y="177" width="600" height="379"/>
+                                <color key="backgroundColor" red="0.98684330320000002" green="0.98723652240000004" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="y9Y-rF-cOb">
                                     <size key="itemSize" width="129" height="118"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -89,13 +90,17 @@
                                             <rect key="frame" x="0.0" y="0.0" width="129" height="118"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xaZ-YY-bre">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="placeHolder" translatesAutoresizingMaskIntoConstraints="NO" id="xaZ-YY-bre">
                                                     <rect key="frame" x="0.0" y="0.0" width="129" height="118"/>
                                                 </imageView>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Ylk-L0-La8">
+                                                    <rect key="frame" x="54" y="49" width="20" height="20"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
+                                            <outlet property="activityIndicator" destination="Ylk-L0-La8" id="Z1r-xn-3cg"/>
                                             <outlet property="imageView" destination="xaZ-YY-bre" id="ic0-3F-3tC"/>
                                         </connections>
                                     </collectionViewCell>
@@ -143,4 +148,7 @@
             <point key="canvasLocation" x="-2758" y="-2002"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="placeHolder" width="85" height="85"/>
+    </resources>
 </document>
