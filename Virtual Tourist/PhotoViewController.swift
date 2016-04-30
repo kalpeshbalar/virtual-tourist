@@ -186,7 +186,7 @@ class PhotoViewController: UIViewController, NSFetchedResultsControllerDelegate,
                     // update the cell later, on the main thread
                     dispatch_async(dispatch_get_main_queue()) {
                         cell.imageView!.image = image
-                        cell.activityIndicator.startAnimating()
+                        cell.activityIndicator.stopAnimating()
                         cell.activityIndicator.hidden = true
                     }
                 }
@@ -208,9 +208,7 @@ class PhotoViewController: UIViewController, NSFetchedResultsControllerDelegate,
                     
                     // Parse the array of photo dictionaries
                     let _ = photosDictionaries.map() { (dictionary: [String : AnyObject]) -> Photo in
-    
                         let photo = Photo(dictionary: dictionary, context: self.sharedContext)
-                        
                         photo.pin = self.pin
                         return photo
                     }
