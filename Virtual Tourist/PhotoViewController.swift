@@ -16,6 +16,7 @@ class PhotoViewController: UIViewController, NSFetchedResultsControllerDelegate,
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    @IBOutlet weak var reloadCollection: UIBarButtonItem!
     
     var shouldReloadCollectionView = false
     var blockOperation:NSBlockOperation?
@@ -24,7 +25,8 @@ class PhotoViewController: UIViewController, NSFetchedResultsControllerDelegate,
         super.viewDidLoad()
         addPin()
         updateFlowLayout()
-
+        reloadCollection.enabled = false
+        
         do {
             try fetchedResultsController.performFetch()
         } catch {
@@ -57,6 +59,9 @@ class PhotoViewController: UIViewController, NSFetchedResultsControllerDelegate,
         
         if pin.photos.isEmpty {
             self.reloadCollection(nil)
+        }
+        else {
+            reloadCollection.enabled = true
         }
     }
 
@@ -151,13 +156,14 @@ class PhotoViewController: UIViewController, NSFetchedResultsControllerDelegate,
     func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!)
     {
         let photo = fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
-        
-        sharedContext.deleteObject(photo)
-        self.saveContext()
+        sharedContext.performBlockAndWait({
+            photo.pin = nil
+            self.sharedContext.deleteObject(photo)
+            self.saveContext()
+        })
     }
     
     func configureCell(cell: PhotoCollectionViewCell, photo: Photo) {
-
         if photo.imagePath == nil || photo.imagePath == "" {
             cell.activityIndicator.stopAnimating()
             cell.activityIndicator.hidden = true
@@ -180,9 +186,11 @@ class PhotoViewController: UIViewController, NSFetchedResultsControllerDelegate,
                     // Craete the image
                     let image = UIImage(data: data)
                     
-                    // update the model, so that the infrmation gets cashed
-                    photo.photoImage = image
-                    
+                    self.sharedContext.performBlockAndWait({
+                        // update the model, so that the infrmation gets cashed
+                        photo.photoImage = image
+                    })
+                        
                     // update the cell later, on the main thread
                     dispatch_async(dispatch_get_main_queue()) {
                         cell.imageView!.image = image
@@ -191,36 +199,48 @@ class PhotoViewController: UIViewController, NSFetchedResultsControllerDelegate,
                     }
                 }
             }
+            task.resume()
         }
     }
     
     
     @IBAction func reloadCollection(sender: AnyObject?) {
-        for photo in pin.photos {
-            sharedContext.deleteObject(photo)
-        }
-        self.saveContext()
+        reloadCollection.enabled = false
+        sharedContext.performBlockAndWait({
+            for photo in self.fetchedResultsController.fetchedObjects as! [Photo] {
+                photo.pin = nil
+                self.sharedContext.deleteObject(photo)
+            }
+            self.saveContext()
+        })
+
         FlickrDB.sharedInstance().searchPhotosByLatLon(pin) { JSONResult, error  in
             if let error = error {
                 print(error)
             } else {
                 if let photosDictionaries = JSONResult.valueForKey("photo") as? [[String : AnyObject]] {
-                    
-                    // Parse the array of photo dictionaries
-                    let _ = photosDictionaries.map() { (dictionary: [String : AnyObject]) -> Photo in
-                        let photo = Photo(dictionary: dictionary, context: self.sharedContext)
-                        photo.pin = self.pin
-                        return photo
-                    }
+                    self.sharedContext.performBlockAndWait({
+                        // Parse the array of photo dictionaries
+                        let _ = photosDictionaries.map() { (dictionary: [String : AnyObject]) -> Photo in
+                            let photo = Photo(dictionary: dictionary, context: self.sharedContext)
+                            //print(photo.id)
+                            photo.pin = self.pin
+                            return photo
+                        }
+                        self.saveContext()
+                    })
                     
                     // Update the collection on the main thread
                     dispatch_async(dispatch_get_main_queue()) {
                         self.collectionView.reloadData()
+
+                        let delay = 10 * Double(NSEC_PER_SEC)
+                        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                        
+                        dispatch_after(time, dispatch_get_main_queue()) {
+                            self.reloadCollection.enabled = true
+                        }
                     }
-                    
-                    // Save the context
-                    self.saveContext()
-                    
                 } else {
                     let error = NSError(domain: "Photo for Pin Parsing. Cant find cast in \(JSONResult)", code: 0, userInfo: nil)
                     print(error)

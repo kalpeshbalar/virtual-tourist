@@ -49,6 +49,8 @@ class Photo : NSManagedObject {
     }
     
     override func prepareForDeletion() {
-        FlickrDB.Caches.imageCache.deleteImageWithIdentifier("\(id)")
+        if photoImage != nil {
+            FlickrDB.Caches.imageCache.deleteImageWithIdentifier("\(id)")
+        }
     }
 }

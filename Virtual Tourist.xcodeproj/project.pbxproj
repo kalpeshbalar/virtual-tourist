@@ -16,6 +16,7 @@
 		044714DF1CAE9211007EDFA1 /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044714DE1CAE9211007EDFA1 /* CoreDataStackManager.swift */; };
 		044714E31CAEABFA007EDFA1 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044714E11CAEABFA007EDFA1 /* Photo.swift */; };
 		044714E41CAEABFA007EDFA1 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044714E21CAEABFA007EDFA1 /* Pin.swift */; };
+		046D27071CD5BDF1007A7F3F /* FlickrDB-Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046D27061CD5BDF1007A7F3F /* FlickrDB-Constants.swift */; };
 		04AA9A381CBB8896008EF97D /* MyAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA9A371CBB8896008EF97D /* MyAnnotation.swift */; };
 		04B79D9D1CC33A050077D2FE /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B79D9C1CC33A050077D2FE /* PhotoViewController.swift */; };
 		04B79D9F1CC34EAA0077D2FE /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04B79D9E1CC34EAA0077D2FE /* ImageCache.swift */; };
@@ -57,6 +58,7 @@
 		044714DE1CAE9211007EDFA1 /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
 		044714E11CAEABFA007EDFA1 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		044714E21CAEABFA007EDFA1 /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
+		046D27061CD5BDF1007A7F3F /* FlickrDB-Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FlickrDB-Constants.swift"; sourceTree = "<group>"; };
 		04AA9A371CBB8896008EF97D /* MyAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyAnnotation.swift; sourceTree = "<group>"; };
 		04B79D9C1CC33A050077D2FE /* PhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		04B79D9E1CC34EAA0077D2FE /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			children = (
 				04B79DA21CC394B40077D2FE /* PhotoCollectionViewCell.swift */,
 				04B79DA01CC34EC70077D2FE /* FlickrDB.swift */,
+				046D27061CD5BDF1007A7F3F /* FlickrDB-Constants.swift */,
 				044714E11CAEABFA007EDFA1 /* Photo.swift */,
 				04B79D9E1CC34EAA0077D2FE /* ImageCache.swift */,
 				044714E21CAEABFA007EDFA1 /* Pin.swift */,
@@ -293,6 +296,7 @@
 				04B79D9F1CC34EAA0077D2FE /* ImageCache.swift in Sources */,
 				044714DF1CAE9211007EDFA1 /* CoreDataStackManager.swift in Sources */,
 				044714AE1CAE8E6C007EDFA1 /* AppDelegate.swift in Sources */,
+				046D27071CD5BDF1007A7F3F /* FlickrDB-Constants.swift in Sources */,
 				04B79D9D1CC33A050077D2FE /* PhotoViewController.swift in Sources */,
 				044714E31CAEABFA007EDFA1 /* Photo.swift in Sources */,
 				04B79DA11CC34EC70077D2FE /* FlickrDB.swift in Sources */,

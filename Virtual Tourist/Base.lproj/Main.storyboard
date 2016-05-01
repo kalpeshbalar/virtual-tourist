@@ -71,7 +71,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="n3K-Qb-mDM">
-                                <rect key="frame" x="0.0" y="28" width="600" height="150"/>
+                                <rect key="frame" x="1" y="28" width="600" height="150"/>
                             </mapView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="C8y-gA-5HN">
                                 <rect key="frame" x="0.0" y="177" width="600" height="379"/>
@@ -113,7 +113,7 @@
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bwq-hG-vLe">
                                 <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <items>
-                                    <barButtonItem title="New Collection" width="276.5" id="YHg-wY-PcW">
+                                    <barButtonItem title="New Collection" width="238.5" id="YHg-wY-PcW">
                                         <connections>
                                             <action selector="reloadCollection:" destination="noV-8q-dwi" id="ogD-eh-Tcr"/>
                                         </connections>
@@ -141,6 +141,7 @@
                         <outlet property="collectionView" destination="C8y-gA-5HN" id="sTl-Fx-Wkf"/>
                         <outlet property="flowLayout" destination="y9Y-rF-cOb" id="gV4-aj-HMr"/>
                         <outlet property="mapView" destination="n3K-Qb-mDM" id="AQd-YW-eAe"/>
+                        <outlet property="reloadCollection" destination="YHg-wY-PcW" id="TBV-qg-eua"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ebc-m2-0Vv" userLabel="First Responder" sceneMemberID="firstResponder"/>
