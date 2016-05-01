@@ -16,6 +16,7 @@ class MapViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
 
     var pins = [Pin]()
+    var annotation: MyAnnotation!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,13 +34,18 @@ class MapViewController: UIViewController {
             annotation.pin = pin
             annotation.coordinate = pincoordinate
             mapView.addAnnotation(annotation)
-        }
+        }        
     }
     
     var sharedContext: NSManagedObjectContext {
         return CoreDataStackManager.sharedInstance().managedObjectContext
     }
 
+    func saveContext() {
+        CoreDataStackManager.sharedInstance().saveContext()
+    }
+    
+    
     func fetchAllPins() -> [Pin] {
         
         // Create the Fetch Request
@@ -54,22 +60,35 @@ class MapViewController: UIViewController {
     }
     
     func addPin(gestureRecognizer:UIGestureRecognizer){
-        if (gestureRecognizer.state == UIGestureRecognizerState.Began) {
-            let touchPoint = gestureRecognizer.locationInView(mapView)
-            let newCoordinates = mapView.convertPoint(touchPoint, toCoordinateFromView: mapView)
-        
-            let dictionary: [String : AnyObject] = [
-                Pin.Keys.lat : newCoordinates.latitude,
-                Pin.Keys.lon : newCoordinates.longitude
-            ]
-            let pin = Pin(dictionary: dictionary, context: sharedContext)
-        
-            let annotation = MyAnnotation()
-            annotation.pin = pin
-            annotation.coordinate = newCoordinates
-            mapView.addAnnotation(annotation)
-        
-            CoreDataStackManager.sharedInstance().saveContext()
+
+        let touchPoint = gestureRecognizer.locationInView(mapView)
+        let newCoordinates = mapView.convertPoint(touchPoint, toCoordinateFromView: mapView)
+    
+        switch gestureRecognizer.state {
+            case .Began:
+                let dictionary: [String : AnyObject] = [
+                    Pin.Keys.lat : newCoordinates.latitude,
+                    Pin.Keys.lon : newCoordinates.longitude
+                ]
+                let pin = Pin(dictionary: dictionary, context: sharedContext)
+
+                annotation = MyAnnotation()
+                annotation.pin = pin
+                annotation.coordinate = newCoordinates
+    
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.mapView.addAnnotation(self.annotation)
+                }
+            case .Changed:
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.annotation.coordinate = newCoordinates
+                    self.annotation.pin.latitude = newCoordinates.latitude
+                    self.annotation.pin.longitude = newCoordinates.longitude
+                }
+            case .Ended:
+                saveContext()
+            default:
+                return
         }
     }
 }
@@ -94,13 +113,15 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-        let annotation = view.annotation as? MyAnnotation
-        let controller = storyboard!.instantiateViewControllerWithIdentifier("PhotoViewController") as! PhotoViewController
         
+        mapView.deselectAnnotation(view.annotation, animated: false)
+        
+        let annotation = view.annotation as? MyAnnotation
         let pin = annotation?.pin
         
+        let controller = storyboard!.instantiateViewControllerWithIdentifier("PhotoViewController") as! PhotoViewController
         controller.pin = pin
         
-        self.navigationController!.pushViewController(controller, animated: true)        
+        self.navigationController!.pushViewController(controller, animated: true)
     }
 }
