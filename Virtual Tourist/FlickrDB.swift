@@ -8,22 +8,6 @@
 
 import Foundation
 
-// MARK: - Globals
-let BASE_URL = "https://api.flickr.com/services/rest/"
-let METHOD_NAME = "flickr.photos.search"
-let API_KEY = "05ba76c9de53bd268b1754a8e1cfc34c"
-let EXTRAS = "url_m"
-let SAFE_SEARCH = "1"
-let DATA_FORMAT = "json"
-let NO_JSON_CALLBACK = "1"
-let BOUNDING_BOX_HALF_WIDTH = 1.0
-let BOUNDING_BOX_HALF_HEIGHT = 1.0
-let LAT_MIN = -90.0
-let LAT_MAX = 90.0
-let LON_MIN = -180.0
-let LON_MAX = 180.0
-let PER_PAGE = 21.0
-
 // MARK: - String Extension
 extension String {
     func toDouble() -> Double? {
@@ -55,14 +39,14 @@ class FlickrDB : NSObject {
     
     func searchPhotosByLatLon(pin: Pin, completionHandler: CompletionHander) -> NSURLSessionDataTask {
         let methodArguments = [
-            "method": METHOD_NAME,
-            "api_key": API_KEY,
+            "method": Constants.METHOD_NAME,
+            "api_key": Constants.API_KEY,
             "bbox": createBoundingBoxString(pin),
-            "safe_search": SAFE_SEARCH,
-            "extras": EXTRAS,
-            "format": DATA_FORMAT,
-            "nojsoncallback": NO_JSON_CALLBACK,
-            "per_page": "\(PER_PAGE)"
+            "safe_search": Constants.SAFE_SEARCH,
+            "extras": Constants.EXTRAS,
+            "format": Constants.DATA_FORMAT,
+            "nojsoncallback": Constants.NO_JSON_CALLBACK,
+            "per_page": "\(Constants.PER_PAGE)"
         ]
         return getImageFromFlickrBySearch(methodArguments, completionHandler: completionHandler)
     }
@@ -73,17 +57,17 @@ class FlickrDB : NSObject {
         let longitude = pin.longitude
 
         /* Fix added to ensure box is bounded by minimum and maximums */
-        let bottom_left_lon = max(longitude - BOUNDING_BOX_HALF_WIDTH, LON_MIN)
-        let bottom_left_lat = max(latitude - BOUNDING_BOX_HALF_HEIGHT, LAT_MIN)
-        let top_right_lon = min(longitude + BOUNDING_BOX_HALF_HEIGHT, LON_MAX)
-        let top_right_lat = min(latitude + BOUNDING_BOX_HALF_HEIGHT, LAT_MAX)
+        let bottom_left_lon = max(longitude - Constants.BOUNDING_BOX_HALF_WIDTH, Constants.LON_MIN)
+        let bottom_left_lat = max(latitude - Constants.BOUNDING_BOX_HALF_HEIGHT, Constants.LAT_MIN)
+        let top_right_lon = min(longitude + Constants.BOUNDING_BOX_HALF_HEIGHT, Constants.LON_MAX)
+        let top_right_lat = min(latitude + Constants.BOUNDING_BOX_HALF_HEIGHT, Constants.LAT_MAX)
         
         return "\(bottom_left_lon),\(bottom_left_lat),\(top_right_lon),\(top_right_lat)"
     }
  
     /* Function makes first request to get a random page, then it makes a request to get an image with the random page */
     func getImageFromFlickrBySearch(methodArguments: [String : AnyObject], completionHandler: CompletionHander) -> NSURLSessionDataTask {
-        let urlString = BASE_URL + escapedParameters(methodArguments)
+        let urlString = Constants.BASE_URL + escapedParameters(methodArguments)
         let url = NSURL(string: urlString)!
         let request = NSURLRequest(URL: url)
         
@@ -137,7 +121,8 @@ class FlickrDB : NSObject {
             }
            
             /* Pick a random page! */
-            let randomPage = Int(arc4random_uniform(UInt32(totalPages/5))) + 1
+            let pageLimit = min(totalPages, 40)
+            let randomPage = Int(arc4random_uniform(UInt32(pageLimit))) + 1
             self.getImageFromFlickrBySearchWithPage(methodArguments, pageNumber: randomPage, completionHandler: completionHandler)
         }
         task.resume()
@@ -150,7 +135,7 @@ class FlickrDB : NSObject {
         var withPageDictionary = methodArguments
         withPageDictionary["page"] = pageNumber
         
-        let urlString = BASE_URL + escapedParameters(withPageDictionary)
+        let urlString = Constants.BASE_URL + escapedParameters(withPageDictionary)
         let url = NSURL(string: urlString)!
         let request = NSURLRequest(URL: url)
         
