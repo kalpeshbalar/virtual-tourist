@@ -190,7 +190,7 @@ class PhotoViewController: UIViewController, NSFetchedResultsControllerDelegate,
                         // update the model, so that the infrmation gets cashed
                         photo.photoImage = image
                     })
-                        
+
                     // update the cell later, on the main thread
                     dispatch_async(dispatch_get_main_queue()) {
                         cell.imageView!.image = image
@@ -232,11 +232,8 @@ class PhotoViewController: UIViewController, NSFetchedResultsControllerDelegate,
                     
                     // Update the collection on the main thread
                     dispatch_async(dispatch_get_main_queue()) {
-                        self.collectionView.reloadData()
-
-                        let delay = 10 * Double(NSEC_PER_SEC)
+                        let delay = 1 * Double(NSEC_PER_SEC)
                         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-                        
                         dispatch_after(time, dispatch_get_main_queue()) {
                             self.reloadCollection.enabled = true
                         }

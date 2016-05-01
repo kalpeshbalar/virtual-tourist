@@ -44,7 +44,9 @@ class Photo : NSManagedObject {
         }
         
         set {
-            FlickrDB.Caches.imageCache.storeImage(newValue, withIdentifier: "\(id)")
+            if pin != nil {
+                FlickrDB.Caches.imageCache.storeImage(newValue, withIdentifier: "\(id)")
+            }
         }
     }
     
@@ -52,5 +54,6 @@ class Photo : NSManagedObject {
         if photoImage != nil {
             FlickrDB.Caches.imageCache.deleteImageWithIdentifier("\(id)")
         }
+        photoImage = nil
     }
 }
